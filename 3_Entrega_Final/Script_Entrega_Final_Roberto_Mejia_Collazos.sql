@@ -170,7 +170,6 @@ INSERT INTO Libro_Autor (ID_Libro, ID_Autor) VALUES
 
 -- ########################################################### VISTAS #######################################################
 -- ========= VISTA 1 - PRESTAMOS DE LIBROS =========
-DROP VIEW IF EXISTS vw_prestamos_usuarios; -- Eliminando la vista si es que existe
 -- CREANDO LA VISTA "prestamos_usuarios_vw"
 CREATE VIEW vw_prestamos_usuarios AS
 SELECT usuarios.ID_Usuario, usuarios.Nombre, MAX(prestamos.Fecha_Devolucion) AS Ultima_Fecha_Devolucion
@@ -179,15 +178,13 @@ GROUP BY usuarios.ID_Usuario;
 
 
 
--- ========= VISTA 2 - LIBROS MÁS CAROS =========
-DROP VIEW IF EXISTS vw_libros_caros; -- Eliminando la vista si es que existe
+-- ========= VISTA 2 - LIBROS MÁS CAROS ========
 CREATE VIEW vw_libros_caros AS
 SELECT ID_Libro, Titulo, Precio 
 FROM libros ORDER BY Precio DESC LIMIT 5;
 
 
--- ========= VISTA 3 - AUTOR MÁS JOVEN =========
-DROP VIEW IF EXISTS vw_autores_top_jovenes; -- Eliminando la vista si es que existe
+-- ========= VISTA 3 - AUTOR MÁS JOVEN ========
 CREATE VIEW vw_autores_top_jovenes AS
 SELECT ID_Autor, Nombre, Nacionalidad, Fecha_Nacimiento
 FROM autores ORDER BY ABS(DATEDIFF(Fecha_Nacimiento, NOW())) LIMIT 5;
@@ -195,14 +192,12 @@ FROM autores ORDER BY ABS(DATEDIFF(Fecha_Nacimiento, NOW())) LIMIT 5;
 
 
 -- ========= VISTA 4 - STOCK DE LIBROS =========
-DROP VIEW IF EXISTS vw_stock_libros; -- Eliminando la vista si es que existe
 CREATE VIEW vw_stock_libros AS
 SELECT COUNT(ID_Libro) AS STOCK_LIBROS FROM Libros;
 
 
 -- ################################### CREACIÓN DE FUNCIONES 1 #######################################
 -- FUNCIÓN SIMULACIÓN DE AMPLIACIÓN DE FECHA DE DEVOLUCIÓN
-DROP FUNCTION IF EXISTS fn_agregar_dias_prestamo;
 DELIMITER //
 CREATE FUNCTION fn_agregar_dias_prestamo (prestamo_id INT, dias INT)
 RETURNS VARCHAR(255)
@@ -224,7 +219,6 @@ DELIMITER ;
 
 -- ################################### CREACIÓN DE FUNCIONES 2 #######################################
 -- FUNCIÓN VER FECHA DE NACIMIENTO DE AUTORES POR SU ID
-DROP FUNCTION IF EXISTS fn_fecha_nacimiento_autor;
 DELIMITER //
 CREATE FUNCTION fn_fecha_nacimiento_autor (autor_id INT)
 RETURNS DATE
@@ -241,7 +235,6 @@ DELIMITER ;
 
 -- ####################################################### STORED PROCEDURES #################################################
 -- ======= PROCEDIMIENTO 1 - PRÉSTAMO DE STOCK =======
-DROP PROCEDURE IF EXISTS sp_prestamo_stock;
 DELIMITER //
 CREATE PROCEDURE sp_prestamo_stock(IN ID_Miembro INT, IN ID_Libro INT, OUT cantidad INT)
 BEGIN
@@ -260,7 +253,6 @@ END //
 DELIMITER ;
 
 -- ======= PROCEDIMIENTO 2 - CATEGORÍA DE USUARIOS =======
-DROP PROCEDURE IF EXISTS sp_tipo_lector;
 DELIMITER //
 CREATE PROCEDURE sp_tipo_lector(IN ID_Usuario INT)
 BEGIN
@@ -280,7 +272,6 @@ END //
 DELIMITER ;
 
 -- ======= PROCEDIMIENTO 3 - LIBROS AL AZAR =======
-DROP PROCEDURE IF EXISTS sp_libro_azar; -- Eliminando el procedimiento si es que existe
 DELIMITER //
 CREATE PROCEDURE sp_libro_azar()
 BEGIN
