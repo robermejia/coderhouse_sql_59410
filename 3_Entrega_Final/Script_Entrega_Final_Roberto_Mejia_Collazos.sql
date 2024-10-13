@@ -189,8 +189,7 @@ FROM libros ORDER BY Precio DESC LIMIT 5;
 -- ========= VISTA 3 - AUTOR MÁS JOVEN =========
 DROP VIEW IF EXISTS vw_autores_top_jovenes; -- Eliminando la vista si es que existe
 CREATE VIEW vw_autores_top_jovenes AS
-SELECT 
-    ID_Autor, Nombre, Nacionalidad, Fecha_Nacimiento
+SELECT ID_Autor, Nombre, Nacionalidad, Fecha_Nacimiento
 FROM autores ORDER BY ABS(DATEDIFF(Fecha_Nacimiento, NOW())) LIMIT 5;
 
 
@@ -217,8 +216,8 @@ BEGIN
     WHERE ID_Prestamo = prestamo_id;
 
     SET fecha_limite = fecha_prestamo + INTERVAL dias DAY;
-
-    RETURN CONCAT('Fecha de devolución: ', DATE_FORMAT(fecha_prestamo, '%Y-%m-%d'), ' - Nueva fecha límite: ', DATE_FORMAT(fecha_limite, '%Y-%m-%d'));
+    RETURN CONCAT('Fecha de devolución: ', DATE_FORMAT(fecha_prestamo, '%Y-%m-%d'), 
+                ' - Nueva fecha límite: ', DATE_FORMAT(fecha_limite, '%Y-%m-%d'));
 END;
 //
 DELIMITER ;
@@ -294,8 +293,8 @@ END //
 DELIMITER ;
 
 
--- ############################################################ TIGGERS ###########################################################
--- ########################################## TIGGERS 1 ######################################
+-- ############################################################ TRIGGERS ###########################################################
+-- ########################################## TRIGGERS 1 ######################################
 DELIMITER //
 CREATE TRIGGER tg_nuevo_libro_autor
 AFTER INSERT ON Libros
@@ -309,7 +308,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- ########################################## TIGGERS 2 ######################################
+-- ########################################## TRIGGERS 2 ######################################
 DELIMITER //
 CREATE TRIGGER tg_actualizar_stock_prestamo
 AFTER INSERT ON Prestamos
