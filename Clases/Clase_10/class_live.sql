@@ -27,9 +27,10 @@ ALTER USER 'jess' @'%' IDENTIFIED BY '4321' PASSWORD EXPIRE INTERVAL 180 DAY FAI
 -- RENAME
 RENAME USER 'jessica_ba_wb' @'%' TO 'jess' @'%';
 
+-- ELIMINA USUARIOS DE MANERA MASIVA
 DROP USER 'jess' @'%', 'miguel_man' @'%';
 
--- GRANT
+-- GRANT (PERMISOS Y AUTORIZACIONES)
 
 CREATE USER 'modesto' @'%' IDENTIFIED BY 'modesto';
 
