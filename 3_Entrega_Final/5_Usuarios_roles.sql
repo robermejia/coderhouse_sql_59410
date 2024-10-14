@@ -7,22 +7,22 @@ DROP USER IF EXISTS 'coderhouse'@'%', 'coderhouse_alumno'@'%', 'coderhouse_docen
 CREATE USER 'coderhouse'@'%'
 IDENTIFIED BY 'coderhouse';
 SHOW GRANTS FOR 'coderhouse_alumno'@'%'; -- Ver permisos
--- ========= USER 2 (CON TODOS LOS DERECHOS) ===============
+-- ========= USER 2 (CON DERECHOS RESTRINGIDOS) ===============
+CREATE USER 'coderhouse_invitado'@'%'
+IDENTIFIED BY 'coderhouse'
+COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
+GRANT SELECT ON proyecto_biblioteca.libros* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola tabla
+SHOW GRANTS FOR 'coderhouse_invitado'@'%'; -- Ver permisos
+-- ========= USER 3 (CON ACCESO A UNA BASE DE DATOS) ===============
 CREATE USER 'coderhouse_alumno'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT ALL ON *.* TO 'coderhouse_alumno' @'%'; -- Dar permisos
+GRANT ALL ON proyecto_biblioteca.* TO 'coderhouse_alumno' @'%'; -- Dar permisos de una sola bd
 SHOW GRANTS FOR 'coderhouse_alumno'@'%'; -- Ver permisos
--- ========= USER 3 (CON TODOS LOS DERECHOS)===============
+-- ========= USER 4 (CON TODOS LOS DERECHOS) ===============
 CREATE USER 'coderhouse_docente'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
 GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos
-SHOW GRANTS FOR 'coderhouse_docente'@'%'; -- Ver permisos
--- ========= USER 4 (CON ACCESO A UNA BASE DE DATOS) ===============
-CREATE USER 'coderhouse_invitado'@'%'
-IDENTIFIED BY 'coderhouse'
-COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT ALL ON proyecto_biblioteca.* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola bd
-SHOW GRANTS FOR 'coderhouse_invitado'@'%'; -- Ver permisos
+SHOW GRANTS FOR 'coderhouse_docente'@'%'; -- Ver permisos a todas las bd
 

@@ -313,23 +313,23 @@ END //
 DELIMITER ;
 
 -- ########################################## USUARIOS ######################################
--- ========= USER 1 (SIN PERMISOS) ===============
 CREATE USER 'coderhouse'@'%'
 IDENTIFIED BY 'coderhouse';
--- ========= USER 2 (CON TODOS LOS DERECHOS) ===============
-CREATE USER 'coderhouse_alumno'@'%'
-IDENTIFIED BY 'coderhouse'
-COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT ALL ON *.* TO 'coderhouse_alumno' @'%'; -- Dar permisos
--- ========= USER 3 (CON TODOS LOS DERECHOS)===============
-CREATE USER 'coderhouse_docente'@'%'
-IDENTIFIED BY 'coderhouse'
-COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos
--- ========= USER 4 (CON ACCESO A UNA BASE DE DATOS) ===============
+-- ========= USER 2 (CON DERECHOS RESTRINGIDOS) ===============
 CREATE USER 'coderhouse_invitado'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT ALL ON proyecto_biblioteca.* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola bd
+GRANT SELECT ON proyecto_biblioteca.libros* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola tabla
+-- ========= USER 3 (CON ACCESO A UNA BASE DE DATOS) ===============
+CREATE USER 'coderhouse_alumno'@'%'
+IDENTIFIED BY 'coderhouse'
+COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
+GRANT ALL ON proyecto_biblioteca.* TO 'coderhouse_alumno' @'%'; -- Dar permisos de una sola bd
+-- ========= USER 4 (CON TODOS LOS DERECHOS) ===============
+CREATE USER 'coderhouse_docente'@'%'
+IDENTIFIED BY 'coderhouse'
+COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
+GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos a todas las bd
+
 
 
