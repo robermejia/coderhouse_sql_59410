@@ -313,13 +313,15 @@ END //
 DELIMITER ;
 
 -- ########################################## USUARIOS ######################################
+-- ########################################## USUARIOS ######################################
+-- ========= USER 1 (SIN PERMISOS) ===============
 CREATE USER 'coderhouse'@'%'
 IDENTIFIED BY 'coderhouse';
 -- ========= USER 2 (CON DERECHOS RESTRINGIDOS) ===============
 CREATE USER 'coderhouse_invitado'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT SELECT ON proyecto_biblioteca.libros* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola tabla
+GRANT SELECT ON proyecto_biblioteca.libros TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola tabla
 -- ========= USER 3 (CON ACCESO A UNA BASE DE DATOS) ===============
 CREATE USER 'coderhouse_alumno'@'%'
 IDENTIFIED BY 'coderhouse'
@@ -329,7 +331,8 @@ GRANT ALL ON proyecto_biblioteca.* TO 'coderhouse_alumno' @'%'; -- Dar permisos 
 CREATE USER 'coderhouse_docente'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos a todas las bd
+GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos
+
 
 
 

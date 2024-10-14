@@ -6,12 +6,12 @@ DROP USER IF EXISTS 'coderhouse'@'%', 'coderhouse_alumno'@'%', 'coderhouse_docen
 -- ========= USER 1 (SIN PERMISOS) ===============
 CREATE USER 'coderhouse'@'%'
 IDENTIFIED BY 'coderhouse';
-SHOW GRANTS FOR 'coderhouse_alumno'@'%'; -- Ver permisos
+SHOW GRANTS FOR 'coderhouse'@'%'; -- Ver permisos
 -- ========= USER 2 (CON DERECHOS RESTRINGIDOS) ===============
 CREATE USER 'coderhouse_invitado'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
-GRANT SELECT ON proyecto_biblioteca.libros* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola tabla
+GRANT SELECT ON proyecto_biblioteca.libros TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola tabla
 SHOW GRANTS FOR 'coderhouse_invitado'@'%'; -- Ver permisos
 -- ========= USER 3 (CON ACCESO A UNA BASE DE DATOS) ===============
 CREATE USER 'coderhouse_alumno'@'%'
