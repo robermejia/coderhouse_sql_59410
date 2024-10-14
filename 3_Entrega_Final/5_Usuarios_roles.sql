@@ -1,10 +1,28 @@
 -- ######################################## USERS ##############################################
 SELECT Host, User FROM mysql.user; -- Muestra todos los usuarios;
 SELECT USER(); -- Ver el usuario actual
--- ========= USER 1 ===============
+FLUSH PRIVILEGES;
+DROP USER IF EXISTS 'coderhouse'@'%', 'coderhouse_alumno'@'%', 'coderhouse_docente'@'%', 'coderhouse_invitado'@'%';
+-- ========= USER 1 (SIN PERMISOS) ===============
 CREATE USER 'coderhouse'@'%'
 IDENTIFIED BY 'coderhouse';
--- ========= USER 2 ===============
+SHOW GRANTS FOR 'coderhouse_alumno'@'%'; -- Ver permisos
+-- ========= USER 2 (CON TODOS LOS DERECHOS) ===============
 CREATE USER 'coderhouse_alumno'@'%'
 IDENTIFIED BY 'coderhouse'
-COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH'
+COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
+GRANT ALL ON *.* TO 'coderhouse_alumno' @'%'; -- Dar permisos
+SHOW GRANTS FOR 'coderhouse_alumno'@'%'; -- Ver permisos
+-- ========= USER 3 (CON TODOS LOS DERECHOS)===============
+CREATE USER 'coderhouse_docente'@'%'
+IDENTIFIED BY 'coderhouse'
+COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
+GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos
+SHOW GRANTS FOR 'coderhouse_docente'@'%'; -- Ver permisos
+-- ========= USER 4 (CON ACCESO A UNA BASE DE DATOS) ===============
+CREATE USER 'coderhouse_invitado'@'%'
+IDENTIFIED BY 'coderhouse'
+COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
+GRANT ALL ON proyecto_biblioteca.* TO 'coderhouse_invitado'@'%'; -- Dar permisos a una sola bd
+SHOW GRANTS FOR 'coderhouse_invitado'@'%'; -- Ver permisos
+
