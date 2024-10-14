@@ -313,7 +313,7 @@ END //
 DELIMITER ;
 
 -- ########################################## USUARIOS ######################################
--- ########################################## USUARIOS ######################################
+DROP USER IF EXISTS 'coderhouse'@'%', 'coderhouse_alumno'@'%', 'coderhouse_docente'@'%', 'coderhouse_invitado'@'%';
 -- ========= USER 1 (SIN PERMISOS) ===============
 CREATE USER 'coderhouse'@'%'
 IDENTIFIED BY 'coderhouse';
@@ -332,6 +332,8 @@ CREATE USER 'coderhouse_docente'@'%'
 IDENTIFIED BY 'coderhouse'
 COMMENT 'ESTE USUARIO SOLO VA ACCEDER POR MEDIO DE WORKBENCH';
 GRANT ALL ON *.* TO 'coderhouse_docente'@'%'; -- Dar permisos
+
+
 
 
 
