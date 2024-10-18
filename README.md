@@ -12,7 +12,10 @@
 ### Docente: Anderson Ocaña 
 ### [Notion Material Extendido](https://almondine-stealer-d91.notion.site/0fe6b4bc1c354ef99f0f88380a7e924a?v=ac85a3a9ef1c4616bcfff66e99ce10ea&pvs=4)
 
-# <center>Clases</center>
-## Carpeta de clases: [Link de las clases](https://github.com/robermejia/coderhouse_sql_59410/tree/desafios)
+# <center>Entrega de proyecto final (rama main)</center>
+## Carpeta del proyecto: [3_Entrega_Final](https://github.com/robermejia/coderhouse_sql_59410/tree/main/3_Entrega_Final)
+
+# <center>Clases (rama desafios)</center>
+## Carpeta de clases: [Clases y mis recursos](https://github.com/robermejia/coderhouse_sql_59410/tree/desafios)
 
 
