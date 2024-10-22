@@ -19,6 +19,11 @@ Este proyecto implementa una base de datos para gestionar una biblioteca, incluy
 
 ## Estructura de la Base de Datos
 
+### Diagrama de Entidad Relación
+<center>
+<img src="https://github.com/robermejia/coderhouse_sql_59410/blob/main/3_Entrega_Final/0.%20DER/Diagrama_en_drawSQL.png" style="width: 100% ; aspect-ratio:16/9">
+</center>
+
 ### 1. Tablas
 
 - **Editoriales:** Almacena información sobre las editoriales de los libros.
