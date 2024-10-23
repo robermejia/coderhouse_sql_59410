@@ -22,15 +22,16 @@ services:
   
 
 
-## se deben parar en la carpeta extras 
+## Desde carpeta Extras
 # docker compose up -d --build
 
-# ingreasr a la docker container 
+# Ingresar a docker container
 # docker exec -it mysql bash
 
 
-# -----
+# -----------------------------------------------
 # docker exec -it mysql mysql -u root -p 
 
-#  correr dentro del mysql de terminal
+# Desde terminal
+# El archivo: Script_Entrega_Final_Roberto_Mejia_Collazos.sql es el archivo final ya para subir a Workbench o carga en Codespace.
 # mysql> source /sql_code/Script_Entrega_Final_Roberto_Mejia_Collazos.sql
