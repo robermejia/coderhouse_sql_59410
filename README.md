@@ -19,7 +19,7 @@
 ## Carpeta de clases: [Clases](https://github.com/robermejia/coderhouse_sql_59410/tree/clases)
 
 # <center>Clases (rama avances)</center>
-## Carpeta de avances y recursos: [Clases](https://github.com/robermejia/coderhouse_sql_59410/tree/avances)
+## Carpeta de avances y recursos: [Avances](https://github.com/robermejia/coderhouse_sql_59410/tree/avances)
 
 # Proyecto Biblioteca
 
