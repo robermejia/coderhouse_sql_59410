@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS Libro_Autor (
     FOREIGN KEY (ID_Autor) REFERENCES Autores(ID_Autor)
 );
 
+-- VISUALIZAR TODAS LAS TABLAS DE LA BASE DE DATOS
+-- SHOW TABLES;
 -- ######################################################## INSERCIONES ####################################################
 -- INSERCIONES MULTIPLES
 INSERT INTO Editoriales (Nombre, Direccion, Telefono) VALUES
@@ -168,38 +170,45 @@ INSERT INTO Libro_Autor (ID_Libro, ID_Autor) VALUES
 (11, 11),
 (12, 12);
 
+-- #################################################### EXTRACCIÓN (OPCIONAL) #############################################
+-- VISUALIZAR TODOS LOS DATOS INSERTADOS
+/*
+SELECT * FROM autores;
+SELECT * FROM editoriales;
+SELECT * FROM generos;
+SELECT * FROM libro_autor;
+SELECT * FROM libros;
+SELECT * FROM usuarios;
+SELECT * FROM prestamos;
+*/
 -- ########################################################### VISTAS #######################################################
 -- ========= VISTA 1 - PRESTAMOS DE LIBROS =========
 -- CREANDO LA VISTA "prestamos_usuarios_vw"
-CREATE VIEW vw_prestamos_usuarios AS
+CREATE VIEW prestamos_usuarios_vw AS
 SELECT usuarios.ID_Usuario, usuarios.Nombre, MAX(prestamos.Fecha_Devolucion) AS Ultima_Fecha_Devolucion
 FROM usuarios INNER JOIN prestamos ON usuarios.ID_Usuario = prestamos.ID_Usuario
 GROUP BY usuarios.ID_Usuario;
 
-
-
--- ========= VISTA 2 - LIBROS MÁS CAROS ========
-CREATE VIEW vw_libros_caros AS
+-- ========= VISTA 2 - LIBROS MÁS CAROS =========
+CREATE VIEW libros_caros_vw AS
 SELECT ID_Libro, Titulo, Precio 
 FROM libros ORDER BY Precio DESC LIMIT 5;
 
-
--- ========= VISTA 3 - AUTOR MÁS JOVEN ========
-CREATE VIEW vw_autores_top_jovenes AS
-SELECT ID_Autor, Nombre, Nacionalidad, Fecha_Nacimiento
-FROM autores ORDER BY ABS(DATEDIFF(Fecha_Nacimiento, NOW())) LIMIT 5;
-
-
+-- ========= VISTA 3 - AUTOR MÁS JOVEN =========
+CREATE VIEW autores_top_jovenes_vw AS
+SELECT 
+    ID_Autor, Nombre, Nacionalidad, Fecha_Nacimiento
+FROM Autores ORDER BY ABS(DATEDIFF(Fecha_Nacimiento, NOW())) LIMIT 5;
 
 -- ========= VISTA 4 - STOCK DE LIBROS =========
-CREATE VIEW vw_stock_libros AS
+CREATE VIEW stock_libros_vw AS
 SELECT COUNT(ID_Libro) AS STOCK_LIBROS FROM Libros;
 
-
+-- ########################################################## FUNCIONES #####################################################
 -- ################################### CREACIÓN DE FUNCIONES 1 #######################################
 -- FUNCIÓN SIMULACIÓN DE AMPLIACIÓN DE FECHA DE DEVOLUCIÓN
 DELIMITER //
-CREATE FUNCTION fn_agregar_dias_prestamo (prestamo_id INT, dias INT)
+CREATE FUNCTION agregar_días_prestamo (prestamo_id INT, dias INT)
 RETURNS VARCHAR(255)
 READS SQL DATA
 BEGIN
@@ -211,8 +220,8 @@ BEGIN
     WHERE ID_Prestamo = prestamo_id;
 
     SET fecha_limite = fecha_prestamo + INTERVAL dias DAY;
-    RETURN CONCAT('Fecha de devolución: ', DATE_FORMAT(fecha_prestamo, '%Y-%m-%d'), 
-                ' - Nueva fecha límite: ', DATE_FORMAT(fecha_limite, '%Y-%m-%d'));
+
+    RETURN CONCAT('Fecha de devolución: ', DATE_FORMAT(fecha_prestamo, '%Y-%m-%d'), ' - Nueva fecha límite: ', DATE_FORMAT(fecha_limite, '%Y-%m-%d'));
 END;
 //
 DELIMITER ;
@@ -220,7 +229,7 @@ DELIMITER ;
 -- ################################### CREACIÓN DE FUNCIONES 2 #######################################
 -- FUNCIÓN VER FECHA DE NACIMIENTO DE AUTORES POR SU ID
 DELIMITER //
-CREATE FUNCTION fn_fecha_nacimiento_autor (autor_id INT)
+CREATE FUNCTION fecha_nacimiento_autor (autor_id INT)
 RETURNS DATE
 READS SQL DATA
 BEGIN
@@ -234,9 +243,9 @@ END;
 DELIMITER ;
 
 -- ####################################################### STORED PROCEDURES #################################################
--- ======= PROCEDIMIENTO 1 - PRÉSTAMO DE STOCK =======
+-- ======= PROCEDIMIENTO 1 - MENSAJE LIBROS AGOTADOS =======
 DELIMITER //
-CREATE PROCEDURE sp_prestamo_stock(IN ID_Miembro INT, IN ID_Libro INT, OUT cantidad INT)
+CREATE PROCEDURE prestamo_stock(IN ID_Miembro INT, IN ID_Libro INT, OUT cantidad INT)
 BEGIN
     DECLARE cantidad_libros INT;    
     SELECT Stock INTO cantidad_libros FROM libros WHERE libros.ID_Libro = ID_Libro; 
@@ -254,7 +263,7 @@ DELIMITER ;
 
 -- ======= PROCEDIMIENTO 2 - CATEGORÍA DE USUARIOS =======
 DELIMITER //
-CREATE PROCEDURE sp_tipo_lector(IN ID_Usuario INT)
+CREATE PROCEDURE tipo_lector(IN ID_Usuario INT)
 BEGIN
     SET @cantidad = (SELECT Cantidad_Pedidos FROM prestamos
                     WHERE prestamos.ID_Usuario = ID_Usuario);
@@ -273,7 +282,7 @@ DELIMITER ;
 
 -- ======= PROCEDIMIENTO 3 - LIBROS AL AZAR =======
 DELIMITER //
-CREATE PROCEDURE sp_libro_azar()
+CREATE PROCEDURE libro_azar()
 BEGIN
     SET @iterador = 0;
     WHILE @iterador < 3 DO
@@ -283,11 +292,10 @@ BEGIN
 END //
 DELIMITER ;
 
-
--- ############################################################ TRIGGERS ###########################################################
--- ########################################## TRIGGERS 1 ######################################
+-- ############################################################ TIGGERS ###########################################################
+-- ####################################### TIGGERS 1 ########################################
 DELIMITER //
-CREATE TRIGGER tg_nuevo_libro_autor
+CREATE TRIGGER nuevo_libro_autor
 AFTER INSERT ON Libros
 FOR EACH ROW
 BEGIN
@@ -299,9 +307,14 @@ BEGIN
 END //
 DELIMITER ;
 
--- ########################################## TRIGGERS 2 ######################################
+INSERT INTO Libros (ID_Libro, Titulo, Ano_Publicacion, ID_Genero, ID_Editorial, Precio, Stock) 
+VALUES  (13, 'Matar a un ruiseñor', 1960, 5, 1, 100.00, 12),
+        (14, 'El gran Gatsby', 1925, 5, 1, 80.00, 18),
+        (15, 'Fahrenheit 451', 1953, 6, 1, 90.00, 10);
+
+-- ########################################## TIGGERS 2 ######################################
 DELIMITER //
-CREATE TRIGGER tg_actualizar_stock_prestamo
+CREATE TRIGGER actualizar_stock_prestamo
 AFTER INSERT ON Prestamos
 FOR EACH ROW
 BEGIN
@@ -311,35 +324,5 @@ BEGIN
     WHERE ID_Libro = NEW.ID_Libro;
 END //
 DELIMITER ;
-
--- ######################################## ROLES ##############################################
--- Eliminar roles si existen
-DROP ROLE IF EXISTS role_proyecto_biblioteca_admin;
-DROP ROLE IF EXISTS role_proyecto_biblioteca_reader;
--- #### ROL 1 (ACCESO COMPLETO A BD "proyecto_biblioteca") #####################################
-CREATE ROLE role_proyecto_biblioteca_admin;
-GRANT ALL PRIVILEGES ON proyecto_biblioteca.* TO role_proyecto_biblioteca_admin;
-
--- #### ROL 2 (SOLO LECTURA EN LA TABLA "libros" DE BD "proyecto_biblioteca") ##################
-CREATE ROLE role_proyecto_biblioteca_reader;
-GRANT SELECT ON proyecto_biblioteca.libros TO role_proyecto_biblioteca_reader;
-
--- ######################################## USERS ##############################################
--- Eliminar usuarios existentes (si existen)
-DROP USER IF EXISTS 'coderhouse'@'%', 'coderhouse_alumno'@'%', 'coderhouse_docente'@'%', 'coderhouse_invitado'@'%';
-
--- ========= USER 1 (SIN PERMISOS) ===============
-CREATE USER 'coderhouse'@'%' IDENTIFIED BY 'coderhouse';
-
--- ========= USER 2 (SOLO LECTURA EN "libros" DE BD "proyecto_biblioteca") ===============
-CREATE USER 'coderhouse_invitado'@'%' IDENTIFIED BY 'coderhouse';
-GRANT role_proyecto_biblioteca_reader TO 'coderhouse_invitado'@'%'; 
-
--- ========= USER 3 (ACCESO COMPLETO A BD "proyecto_biblioteca") ===============
-CREATE USER 'coderhouse_alumno'@'%' IDENTIFIED BY 'coderhouse';
-GRANT role_proyecto_biblioteca_admin TO 'coderhouse_alumno'@'%';
-
--- ========= USER 4 (ADMINISTRADOR DEL SERVIDOR) ===============
-CREATE USER 'coderhouse_docente'@'%' IDENTIFIED BY 'coderhouse';
-GRANT role_proyecto_biblioteca_admin TO 'coderhouse_docente'@'%';
-FLUSH PRIVILEGES; -- Actualizar privilegios
+INSERT INTO Prestamos (ID_Libro, ID_Usuario, Fecha_Prestamo, Fecha_Devolucion, Cantidad_Pedidos)
+VALUES (1, 1, '2024-04-26', DATE(NOW()), 2);

@@ -25,9 +25,9 @@ SELECT IF(precio > 90, precio, "menor a 90") AS Precio_Mayor_90 FROM libros;
 
 -- ################################### CREACIÓN DE FUNCIONES 1 #######################################
 -- FUNCIÓN SIMULACIÓN DE AMPLIACIÓN DE FECHA DE DEVOLUCIÓN
-DROP FUNCTION fn_agregar_dias_prestamo;
+DROP FUNCTION agregar_dias_prestamo;
 DELIMITER //
-CREATE FUNCTION fn_agregar_dias_prestamo (prestamo_id INT, dias INT)
+CREATE FUNCTION agregar_dias_prestamo (prestamo_id INT, dias INT)
 RETURNS VARCHAR(255)
 READS SQL DATA
 BEGIN
@@ -44,13 +44,13 @@ BEGIN
 END;
 //
 DELIMITER ;
-SELECT fn_agregar_días_prestamo(2, 8) AS FECHAS_PRESTAMOS_LIBROS;
+SELECT agregar_días_prestamo(2, 8) AS FECHAS_PRESTAMOS_LIBROS;
 
 -- ################################### CREACIÓN DE FUNCIONES 2 #######################################
 -- FUNCIÓN VER FECHA DE NACIMIENTO DE AUTORES POR SU ID
-DROP FUNCTION fn_fecha_nacimiento_autor;
+DROP FUNCTION fecha_nacimiento_autor;
 DELIMITER //
-CREATE FUNCTION fn_fecha_nacimiento_autor (autor_id INT)
+CREATE FUNCTION fecha_nacimiento_autor (autor_id INT)
 RETURNS DATE
 READS SQL DATA
 BEGIN
@@ -62,4 +62,4 @@ BEGIN
 END;
 //
 DELIMITER ;
-SELECT fn_fecha_nacimiento_autor(2) AS;
+SELECT fecha_nacimiento_autor(2) AS;

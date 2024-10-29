@@ -1,7 +1,7 @@
 -- ############################################################ TIGGERS ###########################################################
 -- ########################################## TIGGERS 1 ######################################
 DELIMITER //
-CREATE TRIGGER tg_nuevo_libro_autor
+CREATE TRIGGER nuevo_libro_autor
 AFTER INSERT ON Libros
 FOR EACH ROW
 BEGIN
@@ -20,7 +20,7 @@ VALUES (13, 'Matar a un ruiseñor', 1960, 5, 1, 100.00, 12),
 
 -- ########################################## TIGGERS 2 ######################################
 DELIMITER //
-CREATE TRIGGER tg_actualizar_stock_prestamo
+CREATE TRIGGER actualizar_stock_prestamo
 AFTER INSERT ON Prestamos
 FOR EACH ROW
 BEGIN
