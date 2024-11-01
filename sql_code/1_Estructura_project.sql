@@ -1,4 +1,4 @@
--- Active: 1722556967735@@127.0.0.1@3306@proyecto_biblioteca
+-- Active: 1722556967735@@127.0.0.1@3306
 -- ############################################### CREACIÓN DE BASE DE DATOS ##############################################
 -- ELIMINACIÓN DE BASE DE DATOS 
 DROP DATABASE IF EXISTS proyecto_biblioteca;
